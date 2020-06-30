@@ -11,8 +11,23 @@ import SwiftUI
 class EmojiMemoryGame {
     private var model: MemoryGame<String> = EmojiMemoryGame.createMemoryGame()
     
+    static private let emojiSet: Array<String> = ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏐", "🏉", "🎱", "🏓", "🥊", "🏄🏻‍♂️", "🏊🏼"]
+    
     static func createMemoryGame() -> MemoryGame<String> {
-        let emojis: Array<String> = ["🎃", "👻", "🕷"]
+        var emojis: Array<String> = []
+        for _ in 0..<Int.random(in: 2...5) {
+            while true {
+                let randomEmoji = EmojiMemoryGame.emojiSet.randomElement()!
+                if emojis.contains(randomEmoji) {
+                    continue
+                }
+                else {
+                    emojis.append(randomEmoji)
+                    break
+                }
+            }
+        }
+        print(emojis.count)
         return MemoryGame<String>(numberOfPairsOfCards: emojis.count) { pairIndex in
             return emojis[pairIndex]
         }
