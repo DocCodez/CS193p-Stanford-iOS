@@ -23,7 +23,7 @@
 
 /* Begin PBXFileReference section */
 		BF27713E24ABF7ED002AE9BE /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
-		BF27714024ABFDB0002AE9BE /* GridLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GridLayout.swift; path = ../../Lecture4/GridLayout.swift; sourceTree = "<group>"; };
+		BF27714024ABFDB0002AE9BE /* GridLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
 		BF27714224AC057A002AE9BE /* Array+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Identifiable.swift"; sourceTree = "<group>"; };
 		BF27714424AC1BBD002AE9BE /* Array+Only.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Only.swift"; sourceTree = "<group>"; };
 		BF9F8F1D24AAB19100C87F61 /* Memorize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memorize.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -34,7 +34,7 @@
 		BF9F8F2924AAB19400C87F61 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BF9F8F2C24AAB19400C87F61 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BF9F8F2E24AAB19400C87F61 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BF9F8F3624AAB38200C87F61 /* MemoryGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryGame.swift; sourceTree = SOURCE_ROOT; };
+		BF9F8F3624AAB38200C87F61 /* MemoryGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MemoryGame.swift; path = Memorize/Model/MemoryGame.swift; sourceTree = SOURCE_ROOT; };
 		BF9F8F3824AAB41100C87F61 /* EmojiMemoryGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiMemoryGame.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -49,6 +49,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BF27715024AC2290002AE9BE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BF9F8F2424AAB19100C87F61 /* EmojiMemoryGameView.swift */,
+				BF27713E24ABF7ED002AE9BE /* Grid.swift */,
+				BF27714024ABFDB0002AE9BE /* GridLayout.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BF27715124AC22A3002AE9BE /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				BF9F8F3824AAB41100C87F61 /* EmojiMemoryGame.swift */,
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
+		BF27715224AC22B9002AE9BE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BF9F8F3624AAB38200C87F61 /* MemoryGame.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BF27715324AC22C7002AE9BE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BF27714224AC057A002AE9BE /* Array+Identifiable.swift */,
+				BF27714424AC1BBD002AE9BE /* Array+Only.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		BF9F8F1424AAB19100C87F61 = {
 			isa = PBXGroup;
 			children = (
@@ -70,13 +105,10 @@
 			children = (
 				BF9F8F2024AAB19100C87F61 /* AppDelegate.swift */,
 				BF9F8F2224AAB19100C87F61 /* SceneDelegate.swift */,
-				BF9F8F2424AAB19100C87F61 /* EmojiMemoryGameView.swift */,
-				BF27713E24ABF7ED002AE9BE /* Grid.swift */,
-				BF27714224AC057A002AE9BE /* Array+Identifiable.swift */,
-				BF27714024ABFDB0002AE9BE /* GridLayout.swift */,
-				BF9F8F3824AAB41100C87F61 /* EmojiMemoryGame.swift */,
-				BF9F8F3624AAB38200C87F61 /* MemoryGame.swift */,
-				BF27714424AC1BBD002AE9BE /* Array+Only.swift */,
+				BF27715024AC2290002AE9BE /* Views */,
+				BF27715124AC22A3002AE9BE /* View Model */,
+				BF27715224AC22B9002AE9BE /* Model */,
+				BF27715324AC22C7002AE9BE /* Extensions */,
 				BF9F8F2624AAB19400C87F61 /* Assets.xcassets */,
 				BF9F8F2B24AAB19400C87F61 /* LaunchScreen.storyboard */,
 				BF9F8F2E24AAB19400C87F61 /* Info.plist */,
