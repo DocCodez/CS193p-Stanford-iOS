@@ -13,7 +13,7 @@ class EmojiMemoryGame: ObservableObject {
     
     static private let emojiSet: Array<String> = ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏐", "🏉", "🎱", "🏓", "🥊", "🏄🏻‍♂️", "🏊🏼"]
     
-    static func createMemoryGame() -> MemoryGame<String> {
+    private static func createMemoryGame() -> MemoryGame<String> {
         var emojis: Array<String> = []
         for _ in 0..<Int.random(in: 2...5) {
             while true {
