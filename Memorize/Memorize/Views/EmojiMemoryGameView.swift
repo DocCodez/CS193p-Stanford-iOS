@@ -46,7 +46,6 @@ struct CardView: View {
             }
         }
         .font(Font.system(size: fontSize(for: size)))
-        //.aspectRatio(2/3, contentMode: .fit)
     }
     
     // MARK: - Drawing Constants

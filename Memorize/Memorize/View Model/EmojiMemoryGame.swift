@@ -28,7 +28,7 @@ class EmojiMemoryGame: ObservableObject {
             }
         }
         return MemoryGame<String>(numberOfPairsOfCards: emojis.count) { pairIndex in
-            return emojis[pairIndex]
+            emojis[pairIndex]
         }
     }
     
