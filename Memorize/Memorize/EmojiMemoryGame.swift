@@ -27,7 +27,6 @@ class EmojiMemoryGame: ObservableObject {
                 }
             }
         }
-        print(emojis.count)
         return MemoryGame<String>(numberOfPairsOfCards: emojis.count) { pairIndex in
             return emojis[pairIndex]
         }
