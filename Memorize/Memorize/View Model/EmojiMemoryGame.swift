@@ -64,6 +64,10 @@ class EmojiMemoryGame: ObservableObject {
         model.cards
     }
     
+    var gameSettings: MemoryGame<String>.Theme {
+        model.gameSettings
+    }
+    
     // MARK: - Intent(s)
     
     func choose(card: MemoryGame<String>.Card) {
@@ -82,11 +86,15 @@ class EmojiMemoryGame: ObservableObject {
         case "Animals":
             return Color.purple
         case "Food":
-            return Color.primary
+            return Color.red
         case "Weather":
             return Color.gray
         default:
             return Color.accentColor
         }
+    }
+    
+    func resetGame() -> Void {
+        model = EmojiMemoryGame.createMemoryGame()
     }
 }

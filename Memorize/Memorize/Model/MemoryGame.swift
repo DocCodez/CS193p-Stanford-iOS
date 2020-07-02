@@ -24,9 +24,6 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     init(numberOfPairsOfCards: Int, themeName: String, emojiSet: Array<CardContent>, cardContentFactory: (Int) -> CardContent){
         cards = Array<Card>()
         gameSettings = Theme(name: themeName, emojiSet: emojiSet, numCards: numberOfPairsOfCards)
-        print(gameSettings.emojiSet)
-        print(gameSettings.name)
-        print(gameSettings.numCards!)
         for pairIndex in 0..<numberOfPairsOfCards {
             let content = cardContentFactory(pairIndex)
             cards.append(Card(content: content, id: pairIndex*2))
