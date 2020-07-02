@@ -19,7 +19,7 @@ struct EmojiMemoryGameView: View {
         .padding(5)
         }
             .padding()
-            .foregroundColor(Color.orange)
+        .foregroundColor(viewModel.themeColor())
     }
 }
 
@@ -48,11 +48,8 @@ struct CardView: View {
     
     // MARK: - Drawing Constants
     
-    private let cornerRadius: CGFloat = 10.0
-    private let edgeLineWidth: CGFloat = 3.0
-    
     private func fontSize(for size: CGSize) -> CGFloat {
-        min(size.width, size.height) * 0.6
+        min(size.width, size.height) * 0.7
     }
 }
 
