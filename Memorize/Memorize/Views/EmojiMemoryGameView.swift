@@ -41,6 +41,7 @@ struct EmojiMemoryGameView: View {
                     self.viewModel.choose(card: card)
                 }
             .padding(5)
+            .foregroundColor(self.viewModel.themeColor())
             }
             
             // Text For the score at bottom of screen.
@@ -50,7 +51,6 @@ struct EmojiMemoryGameView: View {
             .font(.largeTitle)
                 
                 .padding()
-                .foregroundColor(viewModel.themeColor())
         }
     }
 }
