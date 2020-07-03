@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct EmojiMemoryGameView: View {
-    @ObservedObject var viewModel: EmojiMemoryGame
+    @ObservedObject private(set) var viewModel: EmojiMemoryGame
     
     var body: some View {
         VStack {
@@ -18,7 +18,9 @@ struct EmojiMemoryGameView: View {
                 Text(viewModel.gameSettings.name) // TODO: Create a navigation bar item that takes back to view displaying themes to play.
                 Spacer()
                 Button(action: {
-                    self.viewModel.resetGame()
+                    withAnimation(.easeInOut){
+                        self.viewModel.resetGame()
+                    }
                 }) {
                     Text("New Game")
                 }
@@ -38,7 +40,9 @@ struct EmojiMemoryGameView: View {
             // Grid for the cards.
             Grid(viewModel.cards) { card in
                 CardView(card: card).onTapGesture {
-                    self.viewModel.choose(card: card)
+                    withAnimation(.easeInOut){
+                        self.viewModel.choose(card: card)
+                    }
                 }
             .padding(5)
             .foregroundColor(self.viewModel.themeColor())
@@ -73,8 +77,11 @@ struct CardView: View {
                     .opacity(0.40)
                 Text(self.card.content)
                     .font(Font.system(size: fontSize(for: size)))
+                    .rotationEffect(Angle.degrees(card.isMatched ? 360: 0))
+                    .animation(card.isMatched ? Animation.linear(duration: 1).repeatForever(autoreverses: false) : .default)
             }
             .cardify(isFaceUp: card.isFaceUp)
+            .transition(AnyTransition.scale)
         }
     }
     
@@ -89,7 +96,6 @@ struct CardView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = EmojiMemoryGame()
-        game.choose(card: game.cards[0])
         return EmojiMemoryGameView(viewModel: game)
     }
 }
