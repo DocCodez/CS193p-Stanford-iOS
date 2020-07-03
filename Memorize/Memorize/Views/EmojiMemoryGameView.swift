@@ -83,19 +83,19 @@ struct CardView: View {
             ZStack {
                 Group {
                     if card.isConsumingBonusTime {
-                        Pie(startAngle: Angle.degrees(0-90), endAngle: Angle.degrees(-animatedBonusRemaining*360-90), clockwise: true)
+                        Pie(startAngle: Angle.degrees(0-quarterCircleAngle), endAngle: Angle.degrees(-animatedBonusRemaining*fullCircleAngle-quarterCircleAngle), clockwise: true)
                             .onAppear {
                                 self.startBonusTimeAnimation()
                         }
                     } else {
-                        Pie(startAngle: Angle.degrees(0-90), endAngle: Angle.degrees(-card.bonusRemaining*360-90), clockwise: true)
+                        Pie(startAngle: Angle.degrees(0-quarterCircleAngle), endAngle: Angle.degrees(-card.bonusRemaining*fullCircleAngle-quarterCircleAngle), clockwise: true)
                     }
                 }
-                .padding(5).opacity(0.4)
+                .padding(piePadding).opacity(pieOpacity)
                 Text(self.card.content)
                     .font(Font.system(size: fontSize(for: size)))
-                    .rotationEffect(Angle.degrees(card.isMatched ? 360: 0))
-                    .animation(card.isMatched ? Animation.linear(duration: 1).repeatForever(autoreverses: false) : .default)
+                    .rotationEffect(Angle.degrees(card.isMatched ? fullCircleAngle: 0))
+                    .animation(card.isMatched ? Animation.linear(duration: animationDuration).repeatForever(autoreverses: false) : .default)
             }
             .cardify(isFaceUp: card.isFaceUp)
             .transition(AnyTransition.scale)
@@ -103,6 +103,13 @@ struct CardView: View {
     }
     
     // MARK: - Drawing Constants
+    
+    private let fullCircleAngle: Double = 360
+    private let quarterCircleAngle: Double = 90
+    private let halfCircleAngle: Double = 180
+    private let pieOpacity: Double = 0.4
+    private let piePadding: CGFloat = 5
+    private let animationDuration: Double = 1
     
     private func fontSize(for size: CGSize) -> CGFloat {
         min(size.width, size.height) * 0.7
