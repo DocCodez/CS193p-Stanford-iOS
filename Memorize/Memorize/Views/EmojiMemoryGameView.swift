@@ -13,24 +13,42 @@ struct EmojiMemoryGameView: View {
     
     var body: some View {
         VStack {
+            // HStack for the navigation bar item and new game button at top of the screen.
             HStack {
-                Text(viewModel.gameSettings.name)
+                Text(viewModel.gameSettings.name) // TODO: Create a navigation bar item that takes back to view displaying themes to play.
                 Spacer()
                 Button(action: {
-                    // TODO: implement button action.
                     self.viewModel.resetGame()
-                    print("TODO")
                 }) {
                     Text("New Game")
                 }
             }
+            .font(.headline)
             .padding()
+            
+            // Text For the title of the theme.
+            HStack {
+                Text(viewModel.gameSettings.name)
+                    .bold()
+                Spacer()
+            }
+            .font(.largeTitle)
+            .padding(.leading)
+            
+            // Grid for the cards.
             Grid(viewModel.cards) { card in
                 CardView(card: card).onTapGesture {
                     self.viewModel.choose(card: card)
                 }
             .padding(5)
             }
+            
+            // Text For the score at bottom of screen.
+            HStack {
+                Text("Score: \(viewModel.gameScore)")
+            }
+            .font(.largeTitle)
+                
                 .padding()
                 .foregroundColor(viewModel.themeColor())
         }

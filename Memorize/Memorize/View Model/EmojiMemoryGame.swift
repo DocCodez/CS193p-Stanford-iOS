@@ -11,8 +11,8 @@ import SwiftUI
 class EmojiMemoryGame: ObservableObject {
     @Published private var model: MemoryGame<String> = EmojiMemoryGame.createMemoryGame()
     
-    static private let lowerBoundRandom: Int = 2
-    static private let upperBoundRandom: Int = 6
+    static private let lowerBoundRandom: Int = 4
+    static private let upperBoundRandom: Int = 8
     
     static private var emojiSet: [String: Array<String>] {
         let emojiSetSports = ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏐", "🏉", "🎱", "🏓", "🥊", "🏄🏻‍♂️", "🏊🏼"]
@@ -64,8 +64,12 @@ class EmojiMemoryGame: ObservableObject {
         model.cards
     }
     
-    var gameSettings: MemoryGame<String>.Theme {
-        model.gameSettings
+    var gameSettings: MemoryGame<String>.Game {
+        model.gameInfo
+    }
+    
+    var gameScore: Int {
+        model.gameInfo.score
     }
     
     // MARK: - Intent(s)

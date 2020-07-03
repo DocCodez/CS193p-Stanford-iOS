@@ -10,7 +10,7 @@ import Foundation
 
 struct MemoryGame<CardContent> where CardContent: Equatable {
     private(set) var cards: Array<Card>
-    private(set) var gameSettings: Theme
+    private(set) var gameInfo: Game
     
     private var indexOfTheOneAndOnlyFaceUpCard: Int? {
         get { cards.indices.filter { index in cards[index].isFaceUp }.only }
@@ -23,7 +23,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     
     init(numberOfPairsOfCards: Int, themeName: String, emojiSet: Array<CardContent>, cardContentFactory: (Int) -> CardContent){
         cards = Array<Card>()
-        gameSettings = Theme(name: themeName, emojiSet: emojiSet, numCards: numberOfPairsOfCards)
+        gameInfo = Game(name: themeName, emojiSet: emojiSet, numCards: numberOfPairsOfCards)
         for pairIndex in 0..<numberOfPairsOfCards {
             let content = cardContentFactory(pairIndex)
             cards.append(Card(content: content, id: pairIndex*2))
@@ -39,6 +39,13 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                 if cards[chosenIndex].content == cards[potentialMatchIndex].content {
                     cards[chosenIndex].isMatched = true
                     cards[potentialMatchIndex].isMatched = true
+                    gameInfo.score = gameInfo.score + 2
+                } else {
+                    if cards[potentialMatchIndex].hasBeenSeen || cards[chosenIndex].hasBeenSeen {
+                        gameInfo.score = gameInfo.score - 1
+                    }
+                    cards[chosenIndex].hasBeenSeen = true
+                    cards[potentialMatchIndex].hasBeenSeen = true
                 }
                 self.cards[chosenIndex].isFaceUp = true
             } else {
@@ -48,20 +55,22 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     }
     
     func themeColor() -> String {
-        return gameSettings.name
+        return gameInfo.name
     }
     
     // Create Card Struct to encapsulate Card characteristics.
     struct Card: Identifiable {
         var isFaceUp: Bool = false
         var isMatched: Bool = false
+        var hasBeenSeen: Bool = false
         var content: CardContent
         var id: Int
     }
     
-    struct Theme {
+    struct Game {
         var name: String
         var emojiSet: Array<CardContent>
         var numCards: Int?
+        var score: Int = 0
     }
 }
