@@ -32,7 +32,6 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         cards.shuffle()
     }
     
-    // TODO: Add bonus points for matching quicker.
     // Choose function, chooses a card and runs the logic of the game.
     mutating func choose(card: Card) {
         resetScoreUpdated()

@@ -10,24 +10,10 @@ import SwiftUI
 
 struct EmojiMemoryGameView: View {
     @ObservedObject private(set) var viewModel: EmojiMemoryGame
-    
+    @State private var theme: String = ""
+
     var body: some View {
         VStack {
-            // HStack for the navigation bar item and new game button at top of the screen.
-            HStack {
-                Text(viewModel.gameSettings.name) // TODO: Create a navigation bar item that takes back to view displaying themes to play.
-                Spacer()
-                Button(action: {
-                    withAnimation(.easeInOut){
-                        self.viewModel.resetGame()
-                    }
-                }) {
-                    Text("New Game")
-                }
-            }
-            .font(.headline)
-            .padding()
-            
             // Text For the title of the theme.
             HStack {
                 Text(viewModel.gameSettings.name)
@@ -35,7 +21,7 @@ struct EmojiMemoryGameView: View {
                 Spacer()
             }
             .font(.largeTitle)
-            .padding(.leading)
+            .padding()
             
             // Grid for the cards.
             Grid(viewModel.cards) { card in
@@ -55,6 +41,21 @@ struct EmojiMemoryGameView: View {
             .font(.largeTitle)
                 
                 .padding()
+        }
+        .navigationBarTitle("", displayMode: .inline)
+        .navigationBarItems(trailing:
+        Button(action: {
+            withAnimation(.easeInOut){
+                self.viewModel.resetGame()
+            }
+        }) {
+            Text("New Game")
+        })
+            .onAppear(){
+                self.theme = self.viewModel.gameTheme
+        }
+            .onDisappear(){
+                self.viewModel.resetGame(game: ThemeSelection.createMemoryGame(theme: self.theme))
         }
     }
 }
@@ -135,7 +136,7 @@ struct CardView: View {
     private let piePadding: CGFloat = 5
     private let animationDuration: Double = 1
     private let offsetAnimationDuration: Double = 10
-    private let opacityAnimationDuration: Double = 1.5
+    private let opacityAnimationDuration: Double = 1
     private let positiveScoreOffset: CGFloat = -1000
     private let negativeScoreOffset: CGFloat = 1000
     

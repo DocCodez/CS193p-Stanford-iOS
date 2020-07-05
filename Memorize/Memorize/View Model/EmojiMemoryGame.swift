@@ -14,7 +14,14 @@ class EmojiMemoryGame: ObservableObject {
     static private let lowerBoundRandom: Int = 5
     static private let upperBoundRandom: Int = 8
     
-    static private var emojiSet: [String: Array<String>] {
+    init() {
+        model = EmojiMemoryGame.createMemoryGame()
+    }
+    init(game: MemoryGame<String>) {
+        model = game
+    }
+    
+    static var emojiSet: [String: Array<String>] {
         let emojiSetSports = ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏐", "🏉", "🎱", "🏓", "🥊", "🏄🏻‍♂️", "🏊🏼"]
         let emojiSetFaces = ["😀","😁","😅","😆","🤣","🥰","😎","🤩","😘","🧐","😳","😡"]
         let emojiSetFlags = ["🇨🇺","🇺🇸","🇵🇷","🇮🇪","🇮🇹","🇮🇸","🇧🇷","🇫🇷","🇨🇦","🏴󠁧󠁢󠁥󠁮󠁧󠁿","🇩🇪","🇬🇷"]
@@ -28,6 +35,49 @@ class EmojiMemoryGame: ObservableObject {
                 "Animals": emojiSetAnimals,
                 "Food": emojiSetFood,
                 "Weather": emojiSetWeather]
+    }
+    
+    static func retrieveThemes() -> Array<String> {
+        var themes: Array<String> = []
+        for key in emojiSet.keys {
+            themes.append(key)
+        }
+        return themes
+    }
+    
+    static func retrieveThemeEmojis(theme: String) -> Array<String> {
+        var emojis: Array<String> = []
+        for key in emojiSet.keys {
+            if theme == key {
+                for emoji in emojiSet[theme]! {
+                    emojis.append(emoji)
+                }
+            }
+        }
+        return emojis
+    }
+    
+    static func getThemeCount() -> Int {
+        return emojiSet.count
+    }
+    
+    static func getThemeColor(theme: String) -> Color {
+        switch theme {
+        case "Sports":
+            return Color.blue
+        case "Faces":
+            return Color.yellow
+        case "Flags":
+            return Color.green
+        case "Animals":
+            return Color.purple
+        case "Food":
+            return Color.red
+        case "Weather":
+            return Color.gray
+        default:
+            return Color.accentColor
+        }
     }
     
     private static func createMemoryGame() -> MemoryGame<String> {
@@ -54,6 +104,23 @@ class EmojiMemoryGame: ObservableObject {
         }
     }
     
+    static func chooseRandomEmojiForGame(setOfEmojis: Array<String>) -> Array<String> {
+        var emojis: Array<String> = []
+        for _ in 0..<Int.random(in: EmojiMemoryGame.lowerBoundRandom...EmojiMemoryGame.upperBoundRandom) {
+            while true {
+                let randomEmoji = setOfEmojis.randomElement()!
+                if emojis.contains(randomEmoji) {
+                    continue
+                }
+                else {
+                    emojis.append(randomEmoji)
+                    break
+                }
+            }
+        }
+        return emojis
+    }
+    
     private static func chooseColor(themeName: String) -> Color {
         return Color.orange
     }
@@ -70,6 +137,10 @@ class EmojiMemoryGame: ObservableObject {
     
     var gameScore: Int {
         model.gameInfo.score
+    }
+    
+    var gameTheme: String {
+        model.gameInfo.name
     }
     
     // MARK: - Intent(s)
@@ -98,7 +169,11 @@ class EmojiMemoryGame: ObservableObject {
         }
     }
     
-    func resetGame() -> Void {
+    func resetGame() {
         model = EmojiMemoryGame.createMemoryGame()
+    }
+    
+    func resetGame(game: MemoryGame<String>) {
+        model = game
     }
 }
