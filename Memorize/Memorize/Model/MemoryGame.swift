@@ -32,17 +32,26 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         cards.shuffle()
     }
     
+    // TODO: Add bonus points for matching quicker.
     // Choose function, chooses a card and runs the logic of the game.
     mutating func choose(card: Card) {
+        resetScoreUpdated()
         if let chosenIndex = cards.firstIndex(matching: card), !cards[chosenIndex].isFaceUp, !cards[chosenIndex].isMatched {
             if let potentialMatchIndex = indexOfTheOneAndOnlyFaceUpCard {
                 if cards[chosenIndex].content == cards[potentialMatchIndex].content {
                     cards[chosenIndex].isMatched = true
                     cards[potentialMatchIndex].isMatched = true
                     gameInfo.score = gameInfo.score + 2
+                    gameInfo.score = gameInfo.score + (Int(card.bonusRemaining * 10))
+                    cards[chosenIndex].scoreUpdateValue = (Int(card.bonusRemaining * 10)) + 2
+                    cards[chosenIndex].scoreUpdated = true
                 } else {
                     if cards[potentialMatchIndex].hasBeenSeen || cards[chosenIndex].hasBeenSeen {
                         gameInfo.score = gameInfo.score - 1
+                        cards[chosenIndex].scoreUpdateValue = -1
+                        cards[chosenIndex].scoreUpdated = true
+                    } else {
+                        cards[chosenIndex].scoreUpdated = false
                     }
                     cards[chosenIndex].hasBeenSeen = true
                     cards[potentialMatchIndex].hasBeenSeen = true
@@ -51,6 +60,12 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             } else {
                 indexOfTheOneAndOnlyFaceUpCard = chosenIndex
             }
+        }
+    }
+    
+    private mutating func resetScoreUpdated() {
+        for card in 0..<cards.count {
+            cards[card].scoreUpdated = false
         }
     }
     
@@ -76,6 +91,9 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         }
         var hasBeenSeen: Bool = false
         var content: CardContent
+        var scoreUpdateValue: Int = 0
+        var scoreUpdated: Bool = false
+        var potentialMatchIsMatched: Bool = false
         var id: Int
         
         

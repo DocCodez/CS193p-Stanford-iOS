@@ -44,8 +44,8 @@ struct EmojiMemoryGameView: View {
                         self.viewModel.choose(card: card)
                     }
                 }
-            .padding(5)
-            .foregroundColor(self.viewModel.themeColor())
+                .padding(5)
+                .foregroundColor(self.viewModel.themeColor())
             }
             
             // Text For the score at bottom of screen.
@@ -59,6 +59,7 @@ struct EmojiMemoryGameView: View {
     }
 }
 
+// TODO: Add animation for when points are given or lost.
 struct CardView: View {
     var card: MemoryGame<String>.Card
     
@@ -69,11 +70,27 @@ struct CardView: View {
     }
     
     @State private var animatedBonusRemaining: Double = 0
+    @State private var scoringOpacity: Double = 0
+    @State private var yOffset: CGFloat = 0
     
     private func startBonusTimeAnimation() {
         animatedBonusRemaining = card.bonusRemaining
         withAnimation(.linear(duration: card.bonusTimeRemaining)) {
             animatedBonusRemaining = 0
+        }
+    }
+    
+    private func startOpacityAnimation() {
+        scoringOpacity = 1
+        withAnimation(.linear(duration: opacityAnimationDuration)){
+            scoringOpacity = 0
+        }
+    }
+    
+    private func startOffsetAnimation(valueOfScoreUpdate: Int) {
+        yOffset = 0
+        withAnimation(.linear(duration: offsetAnimationDuration)){
+            yOffset = valueOfScoreUpdate > 0 ? positiveScoreOffset : negativeScoreOffset
         }
     }
     
@@ -96,6 +113,13 @@ struct CardView: View {
                     .font(Font.system(size: fontSize(for: size)))
                     .rotationEffect(Angle.degrees(card.isMatched ? fullCircleAngle: 0))
                     .animation(card.isMatched ? Animation.linear(duration: animationDuration).repeatForever(autoreverses: false) : .default)
+                if card.scoreUpdated && card.isFaceUp {
+                    ScoringAnimation(scoreUpdate: card.scoreUpdateValue).opacity(scoringOpacity).offset(x: 0, y: yOffset)
+                        .onAppear(){
+                            self.startOpacityAnimation()
+                            self.startOffsetAnimation(valueOfScoreUpdate: self.card.scoreUpdateValue)
+                    }
+                }
             }
             .cardify(isFaceUp: card.isFaceUp)
             .transition(AnyTransition.scale)
@@ -110,6 +134,10 @@ struct CardView: View {
     private let pieOpacity: Double = 0.4
     private let piePadding: CGFloat = 5
     private let animationDuration: Double = 1
+    private let offsetAnimationDuration: Double = 10
+    private let opacityAnimationDuration: Double = 1.5
+    private let positiveScoreOffset: CGFloat = -1000
+    private let negativeScoreOffset: CGFloat = 1000
     
     private func fontSize(for size: CGSize) -> CGFloat {
         min(size.width, size.height) * 0.7

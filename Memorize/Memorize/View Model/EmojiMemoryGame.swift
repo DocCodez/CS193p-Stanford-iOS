@@ -11,7 +11,7 @@ import SwiftUI
 class EmojiMemoryGame: ObservableObject {
     @Published private var model: MemoryGame<String> = EmojiMemoryGame.createMemoryGame()
     
-    static private let lowerBoundRandom: Int = 4
+    static private let lowerBoundRandom: Int = 5
     static private let upperBoundRandom: Int = 8
     
     static private var emojiSet: [String: Array<String>] {
