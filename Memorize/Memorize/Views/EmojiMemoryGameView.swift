@@ -49,12 +49,14 @@ struct EmojiMemoryGameView: View {
                 self.viewModel.resetGame()
             }
         }) {
-            Text("New Game")
+            Text("New Game")    
         })
-            .onAppear(){
+            .onAppear {
                 self.theme = self.viewModel.gameTheme
+                print(self.theme)
         }
-            .onDisappear(){
+            .onDisappear {
+                print("RAN")
                 self.viewModel.resetGame(game: ThemeSelection.createMemoryGame(theme: self.theme))
         }
     }

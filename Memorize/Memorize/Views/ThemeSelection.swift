@@ -13,7 +13,7 @@ struct ThemeSelection: View {
     var body: some View {
         NavigationView{
             List{
-                ForEach(EmojiMemoryGame.retrieveThemes(), id: \.self) { theme in
+                ForEach(EmojiMemoryGame.retrieveThemes().sorted(), id: \.self) { theme in
                     NavigationLink(destination: EmojiMemoryGameView(viewModel: EmojiMemoryGame(game: ThemeSelection.self.createMemoryGame(theme: theme)))) {
                         VStack(alignment: .leading) {
                             Text(theme).foregroundColor(EmojiMemoryGame.getThemeColor(theme: theme)).font(.title)
@@ -23,7 +23,7 @@ struct ThemeSelection: View {
                     }
                 }
             }
-        .navigationBarTitle("Themes")
+            .navigationBarTitle("Themes")
         }
     }
     
