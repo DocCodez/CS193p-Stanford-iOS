@@ -11,6 +11,7 @@ import SwiftUI
 struct EmojiMemoryGameView: View {
     @ObservedObject private(set) var viewModel: EmojiMemoryGame
     @State private var theme: String = ""
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
         VStack {
@@ -43,21 +44,26 @@ struct EmojiMemoryGameView: View {
                 .padding()
         }
         .navigationBarTitle("", displayMode: .inline)
-        .navigationBarItems(trailing:
-        Button(action: {
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: Button(action: {
+            withAnimation(.easeInOut){
+                self.viewModel.resetGame(game: ThemeSelection.createMemoryGame(theme: self.theme))
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        }, label: {
+            HStack {
+                Image(systemName: "chevron.left")
+                Text("Themes")
+            }
+        }), trailing: Button(action: {
             withAnimation(.easeInOut){
                 self.viewModel.resetGame()
             }
-        }) {
-            Text("New Game")    
-        })
+        }, label: {
+            Text("New Game")
+        }))
             .onAppear {
                 self.theme = self.viewModel.gameTheme
-                print(self.theme)
-        }
-            .onDisappear {
-                print("RAN")
-                self.viewModel.resetGame(game: ThemeSelection.createMemoryGame(theme: self.theme))
         }
     }
 }
@@ -148,9 +154,9 @@ struct CardView: View {
 }
 
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        let game = EmojiMemoryGame()
-        return EmojiMemoryGameView(viewModel: game)
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let game = EmojiMemoryGame()
+//        return EmojiMemoryGameView(viewModel: game)
+//    }
+//}
